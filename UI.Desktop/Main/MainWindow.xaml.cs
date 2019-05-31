@@ -1,4 +1,4 @@
-﻿using Logic.UI;
+using Logic.UI;
 using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
@@ -262,7 +262,7 @@ namespace UI.Desktop.Main
 
         public void regexCheck()
         {
-            if (!string.IsNullOrWhiteSpace(invoiceInfoPage.FileNameTextBox.Text) && Regex.IsMatch(invoiceInfoPage.FileNameTextBox.Text, @"^[\w\- ]+$"))
+            if (!string.IsNullOrWhiteSpace(invoiceInfoPage.FileNameTextBox.Text) && Regex.IsMatch(invoiceInfoPage.FileNameTextBox.Text, @"^[\w\-. ]+$"))
                 isValidFilename = true;
             else
                 isValidFilename = false;
