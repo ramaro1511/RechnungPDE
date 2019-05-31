@@ -1,0 +1,41 @@
+﻿<Window x:Class="UI.Desktop.Profile.ProfileInputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Desktop.Profile"
+        mc:Ignorable="d"
+        Title="Profilname eingeben" Height="140" Width="250"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow">
+    
+    <Grid Name="LayoutGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="27"/>
+            <RowDefinition Height="27"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Name="ProfilenameLabel" Content="Profilname eingeben" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+        <TextBox Name="ProfilenameTextBox" Grid.Row="2" Grid.Column="1" Keyboard.KeyDown="ProfilenameTextBox_KeyDown"/>
+
+        <Grid Name="ButtonGrid" Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="OKButton" Content="OK" Grid.Row="0" Grid.Column="0" Click="OKButton_Click"/>
+            <Button Name="CancelButton" Content="Abbrechen" Grid.Row="0" Grid.Column="2" Click="CancelButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>

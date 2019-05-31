@@ -1,0 +1,162 @@
+﻿<Page x:Class="UI.Desktop.Main.Pages.CustomerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.Desktop.Main.Pages"
+      mc:Ignorable="d" 
+      Background="#FFC5C5C5"
+      Title="CustomerPage">
+
+    <Grid Name="LayoutGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Name="CustomerLabel" Content="Kundendaten eingeben..." Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="14" FontWeight="Bold"/>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Name="CustomerCompanyLabel" Content="Firmenname" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic" />
+            <TextBox Name="CustomerCompanyNameTextBox"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Name der Firma"
+                      Rectangle.MouseEnter="Control_MouseEnter"
+                      Rectangle.MouseLeave="Control_MouseLeave"
+                      TextChanged="CustomerCompanyNameTextBox_TextChanged"
+                      GotFocus="TextBox_GotFocus"
+                      LostFocus="Control_LostFocus" 
+                      Text="{Binding customerCompanyName}"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Name="FirstNameLabel" Content="Vorname" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic" />
+            <TextBox Name="FirstNameTextBox" Grid.Row="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Vorname des Kunden" 
+                        Rectangle.MouseEnter="Control_MouseEnter"
+                        Rectangle.MouseLeave="Control_MouseLeave"
+                        GotFocus="TextBox_GotFocus"
+                        LostFocus="Control_LostFocus"
+                        TextChanged="FirstNameTextBox_TextChanged"
+                        Text="{Binding customerFirstName}"/>
+
+            <Label Name="LastNameLabel" Content="Nachname" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic" />
+            <TextBox Name="LastNameTextBox" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Nachname des Kunden"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                             Text="{Binding customerLastName}"
+                             TextChanged="LastNameTextBox_TextChanged"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Label Name="PostCodeLabel" Content="Postleitzahl" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic"/>
+            <TextBox Name="PostCodeTextBox" Text="{Binding customerPostalCode}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Postleitzahl des Kunden"
+                     Rectangle.MouseEnter="Control_MouseEnter"
+                     Rectangle.MouseLeave="Control_MouseLeave"
+                      GotFocus="TextBox_GotFocus"
+                      LostFocus="Control_LostFocus"
+                             TextChanged="PostCodeTextBox_TextChanged"/>
+
+            <Label Name="CityLabel" Content="Stadt" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic"/>
+            <TextBox Name="CityTextBox" Text="{Binding customerCityName}" Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Stadt des Kunden"
+                      Rectangle.MouseEnter="Control_MouseEnter"
+                      Rectangle.MouseLeave="Control_MouseLeave"
+                      GotFocus="TextBox_GotFocus"
+                      LostFocus="Control_LostFocus"
+                             TextChanged="CityTextBox_TextChanged"/>
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Name="StreetLabel" Content="Straße" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic"/>
+            <TextBox Name="Address" Text="{Binding customerAddress}" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Straße des Kunden"
+                      Rectangle.MouseEnter="Control_MouseEnter"
+                      Rectangle.MouseLeave="Control_MouseLeave"
+                      GotFocus="TextBox_GotFocus"
+                      LostFocus="Control_LostFocus"
+                             TextChanged="AddressTextBox_TextChanged"/>
+
+            <Label Name="HouseNumberLabel" Content="Nr." Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic"/>
+            <TextBox Name="HouseNumberTextBox" Text="{Binding customerAddressNumber}" Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Hausnummer des Kunden"
+                      Rectangle.MouseEnter="Control_MouseEnter"
+                      Rectangle.MouseLeave="Control_MouseLeave"
+                      GotFocus="TextBox_GotFocus"
+                      LostFocus="Control_LostFocus"
+                             TextChanged="HouseNumberTextBox_TextChanged"/>
+        </Grid>
+
+        <Grid Grid.Row="5" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Name="CountryLabel" Content="Land" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic" />
+            <TextBox Name="CountryTextBox" Text="{Binding customerCountryName}" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Land des Kunden"
+                              Rectangle.MouseEnter="Control_MouseEnter"
+                              Rectangle.MouseLeave="Control_MouseLeave"
+                              GotFocus="TextBox_GotFocus"
+                              LostFocus="Control_LostFocus"
+                            TextChanged="CountryTextBox_TextChanged"/>
+        </Grid>
+
+        <Label Name="CustomerProfileLabel" Content="Kundenliste" Grid.Row="0" Grid.Column="3" FontStyle="Italic"/>
+
+        <ListBox Name="CustomerProfileListBox" Grid.Row="1" Grid.Column="2" Grid.RowSpan="5" SelectionChanged="CustomerProfileListBox_SelectionChanged"/>
+
+        <Button Name="RemoveProfileButton" Content="Löschen (-)" Grid.Row="6" Grid.Column="2" Click="RemoveProfileButton_Click"/>
+
+    </Grid>
+</Page>

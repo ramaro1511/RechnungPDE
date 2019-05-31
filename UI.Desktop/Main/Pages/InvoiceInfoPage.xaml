@@ -1,0 +1,113 @@
+﻿<Page x:Class="UI.Desktop.Main.Pages.InvoiceInfoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.Desktop.Main.Pages"
+      mc:Ignorable="d" 
+      Background="#FFC5C5C5"
+      Title="InvoiceInfoPage">
+
+    <Grid Name="LayoutGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="345"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Label Name="InvoiceInfoLabel" Content="Rechnungsinformationen eingeben..." FontSize="14" FontWeight="Bold"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="175"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Name="InvoiceNumberLabel" Content="Rechnungsnummer" Grid.Row="0"/>
+            <TextBox Name="InvoiceNumberTextBox" Text="{Binding invoiceNumber}" Grid.Row="1" ToolTip="Eindeutige Nummer der Rechnung" 
+                     Rectangle.MouseEnter="Control_MouseEnter"
+                     Rectangle.MouseLeave="Control_MouseLeave"
+                     TextChanged="InvoiceNumberTextBox_TextChanged"
+                      GotFocus="TextBox_GotFocus"
+                      LostFocus="Control_LostFocus"/>
+
+
+            <Label Name="InvoiceDateLabel" Content="Rechnungsdatum" Grid.Row="0" Grid.Column="2"/>
+            <DatePicker Name="InvoiceDatePicker" Text="{Binding invoiceDate}" Grid.Row="1" Grid.Column="2" ToolTip="Datum der Rechnung" 
+                                Rectangle.MouseEnter="Control_MouseEnter"
+                                Rectangle.MouseLeave="Control_MouseLeave"
+                                GotFocus="InvoiceDatePicker_GotFocus"
+                                LostFocus="Control_LostFocus"
+                                SelectedDateChanged="InvoiceDatePicker_SelectedDateChanged"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="175"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Name="CustomerNumberLabel" Content="Kundennummer" Grid.Row="0"/>
+            <TextBox Name="CustomerNumberTextBox" Text="{Binding customerNumber}" Grid.Row="1" ToolTip="Eindeutige Kundennummer" 
+                     Rectangle.MouseEnter="Control_MouseEnter"
+                     Rectangle.MouseLeave="Control_MouseLeave"
+                     TextChanged="CustomerNumberTextBox_TextChanged"
+                      GotFocus="TextBox_GotFocus"
+                      LostFocus="Control_LostFocus"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Name="FileNameLabel" Grid.Row="0" Grid.Column="0" Content="Dateiname"/>
+            <TextBox Name="FileNameTextBox" Text="{Binding fileName}" Grid.Row="1" Grid.Column="0" Foreground="Black"  ToolTip="Name der Datei (Rechnungsnr - Firmenname)" IsEnabled="False"
+                             TextChanged="FileNameTextBox_TextChanged"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"/>
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <CheckBox Name="FileNameCheckBox" Content="Dateiname manuell bearbeiten" 
+                              Checked="FileNameCheckBox_Checked"
+                              Unchecked="FileNameCheckBox_Unchecked"/>
+        </Grid>
+
+        <Label Name="RecentlyUsedInvoiceLabel" Content="Zuletzt verwendete Rechnungsnr" Grid.Row="0" Grid.Column="2" FontStyle="Italic"/>
+
+        <ListBox Name="InvoiceListBox" Grid.Row="1" Grid.Column="2" Grid.RowSpan="5"/>
+    </Grid>
+</Page>

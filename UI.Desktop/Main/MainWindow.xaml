@@ -1,0 +1,85 @@
+﻿<Window x:Class="UI.Desktop.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Desktop.Main"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle, Mode=OneWay}" Height="500" Width="585" MinHeight="500" MinWidth="585"
+        WindowStyle="ThreeDBorderWindow"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding Main, Source={StaticResource Locator}}" Background="#FFC5C5C5" Foreground="{x:Null}">
+
+    <!--Layout Grid -->
+    <Grid Name="LayoutGrid" Height="Auto" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Toolbar (Top)-->
+        <DockPanel Name="DockPanel">
+            <ToolBarPanel DockPanel.Dock="Top">
+                <ToolBar Name="ToolBar" Background="{Binding ToolBarColor}" ToolBarTray.IsLocked="True" Loaded="ToolBar_Loaded">
+                    <Menu Name="ToolBarMenu" Background="{Binding ToolBarColor}" ToolBar.OverflowMode="Never">
+                        <MenuItem Name="HeaderMenuItem" Header="Datei" Background="{Binding ToolBarColor}">
+                            <MenuItem Name="ProfileMenuItem" Header="Profil" Click="ProfileMenuItem_Click"/>
+                            <MenuItem Name="OptionsMenuItem" Header="Einstellungen" Click="OptionsMenuItem_Click"/>
+                        </MenuItem>
+                    </Menu>
+                </ToolBar>
+            </ToolBarPanel>
+        </DockPanel>
+
+        <Frame x:Name="Main" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+
+        <!--Content Grid(Center)-->
+        <Grid Name="ContentGrid" Grid.Row="1" Margin="10,0,10,0" Visibility="Hidden">
+            <!--Kundendaten Grid (Page 1)-->
+            
+
+            <!--Rechnungsinformationen Grid (Page 2)-->
+            
+
+            <!--Material Grid (Page 3)-->
+            
+
+            <!--Arbeitsstunden Grid (Page 4)-->
+            
+            
+        </Grid>
+
+        <!--Navigation Grid (Bottom)-->
+        <Grid Name="NavigationAndInfoGrid" Grid.Row="3" Visibility="Visible" Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="95"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="95"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="BackButton" Content="Zurück" Grid.Column="1" Click="NavigationButton_Click" Visibility="Hidden"/>
+            <Button Name="ContinueButton" Content="Weiter" Grid.Column="3" Click="NavigationButton_Click"/>
+            <Button Name="CompleteButton" Content="Fertig" Grid.Column="3" Click="CompleteButton_Click" Visibility="Hidden"/>
+        </Grid>
+
+        <!--Tooltip Grid (End)-->
+        <Grid Name="TooltipGrid" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Label Name="TooltipLabel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="2" BorderBrush="#FFCDCDCD" Background="White" ToolTip="Tooltip">
+                <Label.Effect>
+                    <BlurEffect Radius="1"/>
+                </Label.Effect>
+            </Label>
+        </Grid>
+    </Grid>
+</Window>

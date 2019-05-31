@@ -1,0 +1,211 @@
+﻿<Page x:Class="UI.Desktop.Main.Pages.WorkingHoursPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.Desktop.Main.Pages"
+      mc:Ignorable="d" 
+      Background="#FFC5C5C5"
+      Title="WorkingHoursPage">
+
+    <TabControl Name="BusinessHoursTabControl" Background="{Binding OffColor}">
+        <TabItem Name="BusinessHoursTabItem" Header="Arbeitstunden">
+            <Grid Name="LayoutGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="340"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Name="BusinessHoursLabel" Content="Arbeitsstunden" Grid.Row="0" Grid.Column="0" FontSize="14" FontWeight="Bold"/>
+
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Name="BusinessHoursCountLabel" Content="Stundenanzahl (Std)" Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Name="BusinessHoursCountTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Anzahl der Stunden"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                            TextChanged="BusinessHoursCountTextBox_TextChanged"/>
+
+                    <Label Name="WageLabel" Content="Stundenlohn (€)" Grid.Row="0" Grid.Column="2"/>
+                    <TextBox Name="WageTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Stundenlohn in Euro"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                            TextChanged="WageTextBox_TextChanged"/>
+                </Grid>
+
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Name="InvoiceTextLabel" Content="Durchgeführte Arbeiten" Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Name="InvoiceTextTextBox" Text="{Binding invoiceText}" Grid.Row="1" Grid.Column="0" ToolTip="Durchgeführte Arbeiten"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             AcceptsTab="True"
+                             SpellCheck.IsEnabled="True"
+                             Rectangle.MouseEnter="Control_MouseEnter"
+                             Rectangle.MouseLeave="Control_MouseLeave"
+                             GotFocus="TextBox_GotFocus"
+                             LostFocus="Control_LostFocus"
+                             TextChanged="InvoiceTextTextBox_TextChanged"/>
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Name="InvoiceCommentLabel" Content="Kommentar" Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Name="InvoiceCommentTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Kommentar am Ende der Rechnung"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             AcceptsTab="True"
+                             SpellCheck.IsEnabled="True"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                            TextChanged="InvoiceCommentTextBox_TextChanged"/>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Name="AssistentBusinessHoursTabItem" Header="Hilfsarbeiter">
+            <Grid Name="AssistentBusinessHourGrid" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="380"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Name="AssistentBusinessHoursLabel" Content="Hilfsarbeiter Arbeitsstunden" Grid.Row="0" Grid.Column="0" FontSize="14" FontWeight="Bold"/>
+
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Name="AssistentBusinessHoursCountLabel" Content="Hilfsarbeiter Stundenanzahl (Std)" Grid.Row="0" Grid.Column="0" IsEnabled="False"/>
+                    <TextBox Name="AssistentBusinessHoursCountTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Anzahl der Stunden des Hilfarbeiters" IsEnabled="False"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                            TextChanged="AssistentBusinessHoursCountTextBox_TextChanged"/>
+
+                    <Label Name="AssistentWageLabel" Content="Stundenlohn (€)" Grid.Row="0" Grid.Column="2" IsEnabled="False"/>
+                    <TextBox Name="AssistentWageTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Stundenlohn in Euro" IsEnabled="False"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                            TextChanged="AssistentWageTextBox_TextChanged"/>
+
+                    <Button Name="AddAssistentButton" Content="Hilfsarbeiter hinzufügen" Grid.Row="1" Grid.Column="4" Visibility="Visible"
+                                    Click="AddAssistentButton_Click"/>
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Name="RemoveAssistentButton" Content="Hilfsarbeiter entfernen" Grid.Row="1" Grid.Column="2" Visibility="Visible" IsEnabled="False"
+                                    Click="RemoveAssistentButton_Click"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Name="Assistent2BusinessHoursCountLabel" Content="Hilfsarbeiter 2 Stundenanzahl (Std)" Grid.Row="0" Grid.Column="0" Visibility="Visible" IsEnabled="False"/>
+                    <TextBox Name="Assistent2BusinessHoursCountTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Anzahl der Stunden des Hilfarbeiters" Visibility="Visible" IsEnabled="False"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                            TextChanged="Assistent2BusinessHoursCountTextBox_TextChanged"/>
+
+                    <Label Name="Assistent2WageLabel" Content="Stundenlohn (€)" Grid.Row="0" Grid.Column="2" Visibility="Visible" IsEnabled="False"/>
+                    <TextBox Name="Assistent2WageTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Stundenlohn in Euro" Visibility="Visible" IsEnabled="False"
+                            Rectangle.MouseEnter="Control_MouseEnter"
+                            Rectangle.MouseLeave="Control_MouseLeave"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="Control_LostFocus"
+                            TextChanged="Assistent2WageTextBox_TextChanged"/>
+
+                    <Button Name="AddAssistent2Button" Content="Hilfsarbeiter hinzufügen" Grid.Row="1" Grid.Column="4" Visibility="Visible" IsEnabled="False"
+                                    Click="AddAssistent2Button_Click"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Name="RemoveAssistent2Button" Content="Hilfsarbeiter entfernen" Grid.Row="1" Visibility="Visible" IsEnabled="False"
+                                    Click="RemoveAssistent2Button_Click" Grid.ColumnSpan="2"/>
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Page>
