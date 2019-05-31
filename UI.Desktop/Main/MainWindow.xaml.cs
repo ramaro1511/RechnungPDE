@@ -272,7 +272,7 @@ namespace UI.Desktop.Main
             else
                 isValidCustomerCompanyName = false;
 
-            if (!string.IsNullOrWhiteSpace(invoiceInfoPage.InvoiceNumberTextBox.Text) && Regex.IsMatch(invoiceInfoPage.InvoiceNumberTextBox.Text, @"^[\w\-. ]+$"))
+            if (!string.IsNullOrWhiteSpace(invoiceInfoPage.InvoiceNumberTextBox.Text) && Regex.IsMatch(invoiceInfoPage.InvoiceNumberTextBox.Text, @"^[\w\-. ]+$")) //test
                 isValidInvoiceNumber = true;
             else
                 isValidInvoiceNumber = false;
