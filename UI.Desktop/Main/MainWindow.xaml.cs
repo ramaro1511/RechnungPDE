@@ -1,4 +1,4 @@
-using Logic.UI;
+﻿using Logic.UI;
 using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
@@ -267,12 +267,12 @@ namespace UI.Desktop.Main
             else
                 isValidFilename = false;
 
-            if (!string.IsNullOrWhiteSpace(customerPage.CustomerCompanyNameTextBox.Text) && Regex.IsMatch(customerPage.CustomerCompanyNameTextBox.Text, @"^[\w\- ]+$"))
+            if (!string.IsNullOrWhiteSpace(customerPage.CustomerCompanyNameTextBox.Text) && Regex.IsMatch(customerPage.CustomerCompanyNameTextBox.Text, @"^[\w\-. ]+$"))
                 isValidCustomerCompanyName = true;
             else
                 isValidCustomerCompanyName = false;
 
-            if (!string.IsNullOrWhiteSpace(invoiceInfoPage.InvoiceNumberTextBox.Text) && Regex.IsMatch(invoiceInfoPage.InvoiceNumberTextBox.Text, @"^[\w\- ]+$"))
+            if (!string.IsNullOrWhiteSpace(invoiceInfoPage.InvoiceNumberTextBox.Text) && Regex.IsMatch(invoiceInfoPage.InvoiceNumberTextBox.Text, @"^[\w\-. ]+$"))
                 isValidInvoiceNumber = true;
             else
                 isValidInvoiceNumber = false;
