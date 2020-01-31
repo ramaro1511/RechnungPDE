@@ -7,24 +7,24 @@ namespace Logic.UI
     {
         Hasher hasher = new Hasher();
 
-        public void edit(MainViewModel _mainViewModel, string _configOption, string _configValue)
+        public void edit(string _configOption, string _configValue)
         {
-            string[] lines = File.ReadAllLines(_mainViewModel.configPath);
+            string[] lines = File.ReadAllLines(MainViewModel.configPath);
 
-            File.WriteAllText(_mainViewModel.configPath, "");
+            File.WriteAllText(MainViewModel.configPath, "");
 
             foreach (string line in lines)
             {
-                if (!string.IsNullOrEmpty(File.ReadAllText(_mainViewModel.configPath)))
-                    File.AppendAllText(_mainViewModel.configPath, Environment.NewLine);
+                if (!string.IsNullOrEmpty(File.ReadAllText(MainViewModel.configPath)))
+                    File.AppendAllText(MainViewModel.configPath, Environment.NewLine);
 
                 if (line.Contains(_configOption))
                 {
-                    File.AppendAllText(_mainViewModel.configPath, _configOption + _configValue);
+                    File.AppendAllText(MainViewModel.configPath, _configOption + _configValue);
                 }
                 else
                 {
-                    File.AppendAllText(_mainViewModel.configPath, line);
+                    File.AppendAllText(MainViewModel.configPath, line);
                 }
             }
         }
@@ -33,7 +33,7 @@ namespace Logic.UI
         {
             string ret = null;
 
-            string[] lines = File.ReadAllLines(_mainViewModel.configPath);
+            string[] lines = File.ReadAllLines(MainViewModel.configPath);
 
             foreach (string line in lines)
             {
@@ -42,11 +42,9 @@ namespace Logic.UI
             }
 
             if (_configOption == "selectedProfile=")
-                ret = hasher.decrypt(ret);
+                ret = hasher.decrypt(ret, MainViewModel.configPath);
 
             return ret;
         }
-
-
     }
 }

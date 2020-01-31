@@ -1,18 +1,18 @@
-﻿<Window x:Class="UI.Desktop.Profile.ProfileWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UI.Desktop.Profile"
+        x:Class="UI.Desktop.Profile.ProfileWindow"
         mc:Ignorable="d"
         Title="Profil auswählen..." Height="450" Width="450"
         WindowStyle="ToolWindow"
         WindowStartupLocation="CenterOwner"
         DataContext="{Binding Main, Source={StaticResource Locator}}" Background="#FFC5C5C5" Foreground="{x:Null}"
         MinHeight="450" MinWidth="450">
-    
+
     <!--Layout Grid-->
-    <Grid Name="LayoutGrid" Height="Auto" Width="Auto">
+    <Grid x:Name="LayoutGrid" Height="Auto" Width="Auto">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="5"/>
@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
 
         <!--ListBoxGrid (Center Left)-->
-        <Grid Name="ListBoxGrid" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5">
+        <Grid x:Name="ListBoxGrid" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="29"/>
@@ -36,18 +36,16 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <ListBox Name="ProfileListBox" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" SelectionChanged="ProfileListBox_SelectionChanged">
-                
-            </ListBox>
+            <ListBox x:Name="ProfileListBox" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" SelectionChanged="ProfileListBox_SelectionChanged"/>
 
-            <Button Name="AddProfileButton" Content="+" Grid.Row="1" Grid.Column="0" Click="AddProfileButton_Click"/>
-            <Button Name="RemoveProfileButton" Content="-" Grid.Row="1" Grid.Column="1" Click="RemoveProfileButton_Click"/>
+            <Button x:Name="AddProfileButton" Content="+" Grid.Row="1" Grid.Column="0" Click="AddProfileButton_Click"/>
+            <Button x:Name="RemoveProfileButton" Content="-" Grid.Row="1" Grid.Column="1" Click="RemoveProfileButton_Click"/>
         </Grid>
 
         <!--Profil Grid (Center Right)-->
-        <TabControl Grid.Row="0" Grid.Column="1" Name="ProfileTabControl" IsEnabled="False">
-            <TabItem Name="ProfileInfoTabItem" Header="Profildaten">
-                <Grid Name="ProfileGrid" Grid.Row="0" Grid.Column="1" Background="#FFE4E4E4">
+        <TabControl Grid.Row="0" Grid.Column="1" x:Name="ProfileTabControl" IsEnabled="False">
+            <TabItem x:Name="ProfileInfoTabItem" Header="Profildaten">
+                <Grid x:Name="ProfileGrid" Grid.Row="0" Grid.Column="1" Background="#FFE4E4E4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="55"/>
@@ -65,7 +63,7 @@
                         <ColumnDefinition Width="5"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Name="ProfileDataLabel" Content="Profildaten eingeben..." Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold"/>
+                    <Label x:Name="ProfileDataLabel" Content="Profildaten eingeben..." Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold"/>
 
                     <Grid Grid.Row="1" Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -76,12 +74,12 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="CompanyLabel" Content="Firmenname" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileCompanyNameTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Name der Firma"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="CompanyLabel" Content="Firmenname" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileCompanyNameTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Name der Firma"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileCompanyName}"
                         TextChanged="ProfileCompanyNameTextBox_TextChanged"/>
                     </Grid>
@@ -97,21 +95,21 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="FirstNameLabel" Content="Vorname" Grid.Row="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileFirstNameTextBox" Grid.Row="1" ToolTip="Vorname" 
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="FirstNameLabel" Content="Vorname" Grid.Row="0" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileFirstNameTextBox" Grid.Row="1" ToolTip="Vorname" 
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileFirstName}"
                         TextChanged="ProfileFirstNameTextBox_TextChanged"/>
 
-                        <Label Name="LastNameLabel" Content="Nachname" Grid.Row="0" Grid.Column="2" FontStyle="Italic" />
-                        <TextBox Name="ProfileLastNameTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Nachname"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="LastNameLabel" Content="Nachname" Grid.Row="0" Grid.Column="2" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileLastNameTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Nachname"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileLastName}"
                         TextChanged="ProfileLastNameTextBox_TextChanged"/>
                     </Grid>
@@ -127,21 +125,21 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
-                        <Label Name="PostalCodeLabel" Content="Postleitzahl" Grid.Row="0" Grid.Column="0" FontStyle="Italic"/>
-                        <TextBox Name="ProfilePostalCodeTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Postleitzahl"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="PostalCodeLabel" Content="Postleitzahl" Grid.Row="0" Grid.Column="0" FontStyle="Italic"/>
+                        <TextBox x:Name="ProfilePostalCodeTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Postleitzahl"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profilePostalCode}"
                         TextChanged="ProfilePostalCodeTextBox_TextChanged"/>
 
-                        <Label Name="CityLabel" Content="Stadt" Grid.Row="0" Grid.Column="2" FontStyle="Italic"/>
-                        <TextBox Name="ProfileCityNameTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Name der Stadt"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="CityLabel" Content="Stadt" Grid.Row="0" Grid.Column="2" FontStyle="Italic"/>
+                        <TextBox x:Name="ProfileCityNameTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Name der Stadt"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileCityName}"
                         TextChanged="ProfileCityNameTextBox_TextChanged"/>
                     </Grid>
@@ -157,21 +155,21 @@
                             <ColumnDefinition Width="60"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="AddressLabel" Content="Straße" Grid.Row="0" Grid.Column="0" FontStyle="Italic"/>
-                        <TextBox Name="ProfileAddressTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Name der Straße"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="AddressLabel" Content="Straße" Grid.Row="0" Grid.Column="0" FontStyle="Italic"/>
+                        <TextBox x:Name="ProfileAddressTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Name der Straße"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileAddress}"
                         TextChanged="ProfileAddressTextBox_TextChanged"/>
 
-                        <Label Name="HouseNumberLabel" Content="Nr." Grid.Row="0" Grid.Column="2" FontStyle="Italic"/>
-                        <TextBox Name="ProfileAddressNumberTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Hausnummer"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="HouseNumberLabel" Content="Nr." Grid.Row="0" Grid.Column="2" FontStyle="Italic"/>
+                        <TextBox x:Name="ProfileAddressNumberTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Hausnummer"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileAddressNumber}"
                         TextChanged="ProfileAddressNumberTextBox_TextChanged"/>
                     </Grid>
@@ -187,20 +185,19 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="CountryLabel" Content="Land" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileCountryNameTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Land"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
-                        Text="{Binding profileCountryName}"
-                        TextChanged="ProfileCountryNameTextBox_TextChanged"/>
+                        <Label x:Name="CountryLabel" Content="Land" Grid.Row="0" Grid.Column="0" FontStyle="Italic"/>
+                        <ComboBox Name="ProfileCountryListComboBox" Grid.Row="1" Grid.Column="0" ToolTip="Land" IsEditable="True"
+                                  MouseEnter="Control_MouseEnter"
+                                  MouseLeave="Control_MouseLeave"
+                                  GotFocus="Control_GotFocus"
+                                  LostFocus="Control_LostFocus"
+                                  SelectionChanged="ProfileCountryListComboBox_SelectionChanged"/>
                     </Grid>
                 </Grid>
             </TabItem>
 
-            <TabItem Name="ContactDataTabItem" Header="Kontaktdaten">
-                <Grid Name="ContactGrid" Grid.Row="0" Grid.Column="1" Background="#FFE4E4E4">
+            <TabItem x:Name="ContactDataTabItem" Header="Kontaktdaten">
+                <Grid x:Name="ContactGrid" Grid.Row="0" Grid.Column="1" Background="#FFE4E4E4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="55"/>
@@ -218,7 +215,7 @@
                         <ColumnDefinition Width="5"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Name="ContactDataLabel" Content="Kontaktdaten eingeben..." Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold"/>
+                    <Label x:Name="ContactDataLabel" Content="Kontaktdaten eingeben..." Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold"/>
 
                     <Grid Grid.Row="1" Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -229,12 +226,12 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="ProfileEMailLabel" Content="E-Mail Adresse" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileEMailTextBox" Grid.Row="1" Grid.Column="0" ToolTip="E-Mail Adresse"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="ProfileEMailLabel" Content="E-Mail Adresse" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileEMailTextBox" Grid.Row="1" Grid.Column="0" ToolTip="E-Mail Adresse"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileEMailAddress}"
                         TextChanged="ProfileEMailTextBox_TextChanged"/>
                     </Grid>
@@ -250,21 +247,21 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="ProfileTelephoneNumberLabel" Content="Festnetznummer" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileTelephoneNumberTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Festnetznummer"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="ProfileTelephoneNumberLabel" Content="Festnetznummer" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileTelephoneNumberTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Festnetznummer"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileTelephoneNumber}"
                         TextChanged="ProfileTelephoneNumberTextBox_TextChanged"/>
 
-                        <Label Name="ProfileMobileNumberLabel" Content="Mobiltelefonnummer" Grid.Row="0" Grid.Column="2" FontStyle="Italic" />
-                        <TextBox Name="ProfileMobileNumberTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Mobiltelefonnummer"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="ProfileMobileNumberLabel" Content="Mobiltelefonnummer" Grid.Row="0" Grid.Column="2" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileMobileNumberTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Mobiltelefonnummer"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileMobileNumber}"
                         TextChanged="ProfileMobileNumberTextBox_TextChanged"/>
                     </Grid>
@@ -280,12 +277,12 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
-                        <Label Name="ProfileFaxNumberLabel" Content="Faxnummer" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileFaxNumberTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Faxnummer"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="ProfileFaxNumberLabel" Content="Faxnummer" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileFaxNumberTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Faxnummer"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileFaxNumber}"
                         TextChanged="ProfileFaxNumberTextBox_TextChanged"/>
                     </Grid>
@@ -325,8 +322,8 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Name="BankDataTabItem" Header="Bankdaten">
-                <Grid Name="BankGrid" Grid.Row="0" Grid.Column="1" Background="#FFE4E4E4">
+            <TabItem x:Name="BankDataTabItem" Header="Bankdaten">
+                <Grid x:Name="BankGrid" Grid.Row="0" Grid.Column="1" Background="#FFE4E4E4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="55"/>
@@ -344,7 +341,7 @@
                         <ColumnDefinition Width="5"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Name="BankDataLabel" Content="Bankdaten eingeben..." Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold"/>
+                    <Label x:Name="BankDataLabel" Content="Bankdaten eingeben..." Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold"/>
 
                     <Grid Grid.Row="1" Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -355,14 +352,15 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="ProfileBankNameLabel" Content="Bankname" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileBankNameTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Name der Bank"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
-                        Text="{Binding profileBankName}"
-                        TextChanged="ProfileBankNameTextBox_TextChanged"/>
+                        <Label x:Name="ProfileBankNameLabel" Content="Bankname" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+                        <ComboBox Name="ProfileBankListComboBox" Grid.Row="1" Grid.Column="0" ToolTip="Name der Bank" IsEditable="True" 
+                                  MouseEnter="Control_MouseEnter"
+                                  MouseLeave="Control_MouseLeave"
+                                  GotFocus="Control_GotFocus"
+                                  LostFocus="Control_LostFocus"
+                                  SelectionChanged="ProfileBankNameTextBox_SelectionChanged"
+                                  KeyDown="ProfileBankListComboBox_KeyDown"
+                        />
                     </Grid>
 
                     <Grid Grid.Row="2" Grid.Column="1">
@@ -377,44 +375,26 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Name="ProfileBankAccountNumberLabel" Content="Kontonummer" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileBankAccountNumberTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Kontonummer"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <TextBox Name="ProfileBankAccountNumberTextBox" Grid.Row="1" Grid.Column="0" ToolTip="Kontonummer" MaxLength="10"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileBankAccountNumber}"
+                        KeyDown="ProfileBankAccountNumberTextBox_KeyDown"
                         TextChanged="ProfileBankAccountNumberTextBox_TextChanged"/>
 
-                        <Label Name="ProfileBankCodeNumberLabel" Content="Bankleitzahl" Grid.Row="0" Grid.Column="2" FontStyle="Italic" />
-                        <TextBox Name="ProfileBankCodeNumberTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Bankleitzahl (BLZ)"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
-                        Text="{Binding profileBankCodeNumber}"
-                        TextChanged="ProfileBankCodeNumberTextBox_TextChanged"/>
+                        <Label x:Name="ProfileBankCodeNumberLabel" Content="Bankleitzahl" Grid.Row="0" Grid.Column="2" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileBankCodeNumberTextBox" Grid.Row="1" Grid.Column="2" ToolTip="Bankleitzahl (BLZ)" MaxLength="8" IsEnabled="False"
+                                 MouseEnter="Control_MouseEnter"
+                                 MouseLeave="Control_MouseLeave"
+                                 GotFocus="Control_GotFocus"
+                                 LostFocus="Control_LostFocus"
+                                 Text="{Binding profileBankCodeNumber}"
+                                 TextChanged="ProfileBankCodeNumberTextBox_TextChanged"/>
                     </Grid>
 
                     <Grid Grid.Row="3" Grid.Column="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-
-                        <Label Name="ProfileIBANLabel" Content="IBAN" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileIBANTextBox" Grid.Row="1" Grid.Column="0" ToolTip="IBAN"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
-                        Text="{Binding profileIBAN}"
-                        TextChanged="ProfileIBANTextBox_TextChanged"/>
-                    </Grid>
-
-                    <Grid Grid.Row="4" Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="1*"/>
@@ -425,14 +405,33 @@
                             <ColumnDefinition Width="60"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Name="ProfileBICLabel" Content="BIC" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
-                        <TextBox Name="ProfileBICTextBox" Grid.Row="1" Grid.Column="0" ToolTip="BIC"
-                        Rectangle.MouseEnter="TextBox_MouseEnter"
-                        Rectangle.MouseLeave="TextBox_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
-                        LostFocus="TextBox_LostFocus"
+                        <Label x:Name="ProfileBICLabel" Content="BIC" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileBICTextBox" Grid.Row="1" Grid.Column="0" ToolTip="BIC" IsEnabled="False"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
                         Text="{Binding profileBIC}"
                         TextChanged="ProfileBICTextBox_TextChanged"/>
+                    </Grid>
+
+                    <Grid Grid.Row="4" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="ProfileIBANLabel" Content="IBAN" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+                        <TextBox x:Name="ProfileIBANTextBox" Grid.Row="1" Grid.Column="0" ToolTip="IBAN" IsEnabled="False"
+                        MouseEnter="Control_MouseEnter"
+                        MouseLeave="Control_MouseLeave"
+                        GotFocus="Control_GotFocus"
+                        LostFocus="Control_LostFocus"
+                        Text="{Binding profileIBAN}"
+                        TextChanged="ProfileIBANTextBox_TextChanged"/>
                     </Grid>
 
                     <Grid Grid.Row="5" Grid.Column="1">
@@ -470,15 +469,15 @@
             </Grid.ColumnDefinitions>
 
             <CheckBox Name="SelectedProfileCheckBox" Content="Ausgewähltes Profil" IsEnabled="False" Grid.Row="0" Grid.Column="0" Checked="SelectedProfile_Checked"/>
-            <Button Name="SaveProfile" Content="Speichern" Grid.Row="0" Grid.Column="1" Click="SaveProfile_Click"/>
-            <Button Name="SelectProfile" Content="Aktivieren" Grid.Row="0" Grid.Column="3" Click="SelectProfile_Click"/>
+            <Button Name="SaveProfileButton" Content="Speichern" Grid.Row="0" Grid.Column="1" Click="SaveProfileButton_Click"/>
+            <Button Name="ActivateProfileButton" Content="Aktivieren" Grid.Row="0" Grid.Column="3" Click="ActivateProfileButton_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.Column="1" Background="#FFE4E4E4"/>
 
         <!--Tooltip Grid (End)-->
-        <Grid Name="TooltipGrid" Grid.Row="4" Grid.Column="1">
-            <Label Name="TooltipLabel" Content=" " BorderThickness="2" BorderBrush="#FFCDCDCD" Background="White" ToolTip="Tooltip">
+        <Grid x:Name="TooltipGrid" Grid.Row="4" Grid.Column="1">
+            <Label x:Name="TooltipLabel" Content=" " BorderThickness="2" BorderBrush="#FFCDCDCD" Background="White" ToolTip="Tooltip">
                 <Label.Effect>
                     <BlurEffect Radius="1"/>
                 </Label.Effect>

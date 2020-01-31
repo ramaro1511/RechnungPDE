@@ -1,8 +1,15 @@
 ﻿using Logic.UI;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace UI.Desktop.Profile
 {
@@ -21,6 +28,8 @@ namespace UI.Desktop.Profile
         {
             mainViewModel = _mainViewModel;
             InitializeComponent();
+            initCountryList();
+            initBankNameList();
             buildProfileList();
 
             if (ProfileListBox.HasItems)
@@ -29,9 +38,24 @@ namespace UI.Desktop.Profile
             }
         }
 
+        private void initCountryList()
+        { 
+            foreach (string culture in CountryList.getCountryList())
+            {
+                ProfileCountryListComboBox.Items.Add(culture);
+            }
+        }
+        private void initBankNameList()
+        {
+            foreach (string bankName in BankList.getBankNameList())
+            {
+                ProfileBankListComboBox.Items.Add(bankName);
+            }
+        }
+
         private void buildProfileList()
         {
-            string[] profiles = File.ReadAllLines(mainViewModel.profilePath);
+            string[] profiles = File.ReadAllLines(MainViewModel.profilePath);
 
             if (profiles.Length > 0)
             {
@@ -39,8 +63,8 @@ namespace UI.Desktop.Profile
                 {
                     ListBoxItem listboxItem = new ListBoxItem();
                     string[] data = profile.Split(';');
-                    listboxItem.Name = hasher.decrypt(data[0]).Replace(" ", "") + "ListBoxItem"; ;
-                    listboxItem.Content = hasher.decrypt(data[0]);
+                    listboxItem.Name = hasher.decrypt(data[0], MainViewModel.profilePath).Replace(" ", "") + "ListBoxItem"; ;
+                    listboxItem.Content = hasher.decrypt(data[0], MainViewModel.profilePath);
 
                     ProfileListBox.Items.Add(listboxItem);
                 }
@@ -84,9 +108,12 @@ namespace UI.Desktop.Profile
             {
                 listBoxItem.Content = _name;
                 ProfileListBox.Items.Add(listBoxItem);
-                profileHandler.add(_name, mainViewModel.profilePath, false);
+                profileHandler.add(_name, false);
                 ProfileListBox.Items.Refresh();
                 ProfileListBox.SelectedItem = listBoxItem;
+
+                if (int.TryParse(CountryList.getCountryIndex().ToString(), out int index))
+                    ProfileCountryListComboBox.SelectedIndex = index;
             }
             else
             {
@@ -121,11 +148,11 @@ namespace UI.Desktop.Profile
                     if (SelectedProfileCheckBox.IsChecked == true)
                     {
                         ConfigHandler configHanlder = new ConfigHandler();
-                        configHanlder.edit(mainViewModel, "selectedProfile=", "");
+                        configHanlder.edit("selectedProfile=", "");
                         SelectedProfileCheckBox.IsChecked = false;
                     }
 
-                    profileHandler.remove((string)listBoxItem.Content, mainViewModel.profilePath);
+                    profileHandler.remove((string)listBoxItem.Content);
                     ProfileListBox.Items.Remove(ProfileListBox.SelectedItem);
 
                     if (ProfileListBox.HasItems)
@@ -135,7 +162,7 @@ namespace UI.Desktop.Profile
                     }
                     else
                     {
-                        string[] data = new string[9];
+                        string[] data = new string[18];
                         ProfileListBox.SelectedIndex = -1;
                         loadProfileInfo(data);
                         SelectedProfileCheckBox.IsChecked = false;
@@ -149,19 +176,21 @@ namespace UI.Desktop.Profile
             if (ProfileListBox.SelectedItem != null)
             {
                 ListBoxItem listBoxItem = (ListBoxItem)ProfileListBox.SelectedItem;
-                string[] data = profileHandler.read((string)listBoxItem.Content, mainViewModel.profilePath);
+                string[] data = profileHandler.read((string)listBoxItem.Content, MainViewModel.profilePath);
                 ProfileTabControl.IsEnabled = true;
+                SaveProfileButton.IsEnabled = true;
+                ActivateProfileButton.IsEnabled = true;
 
                 if (data.Length > 0)
                 {
                     ConfigHandler configHandler = new ConfigHandler();
 
-                    string selectedProfile = configHandler.read(mainViewModel, "selectedProfile");
+                    string selectedProfile = configHandler.read(mainViewModel, "selectedProfile=");
                     loadProfileInfo(data);
 
                     if (!string.IsNullOrEmpty(selectedProfile))
                     {
-                        if (selectedProfile == hasher.decrypt(data[0]))
+                        if (selectedProfile == hasher.decrypt(data[0], MainViewModel.profilePath))
                         {
                             SelectedProfileCheckBox.IsChecked = true;
                         }
@@ -175,35 +204,48 @@ namespace UI.Desktop.Profile
             else
             {
                 ProfileTabControl.IsEnabled = false;
+                SelectedProfileCheckBox.IsChecked = false;
+                SaveProfileButton.IsEnabled = false;
+                ActivateProfileButton.IsEnabled = false;
             }
         }
 
         private void loadProfileInfo(string[] _data)
         {
-            ProfileCompanyNameTextBox.Text = hasher.decrypt(_data[1]);
-            ProfileFirstNameTextBox.Text = hasher.decrypt(_data[2]);
-            ProfileLastNameTextBox.Text = hasher.decrypt(_data[3]);
-            ProfilePostalCodeTextBox.Text = hasher.decrypt(_data[4]);
-            ProfileCityNameTextBox.Text = hasher.decrypt(_data[5]);
-            ProfileAddressTextBox.Text = hasher.decrypt(_data[6]);
-            ProfileAddressNumberTextBox.Text = hasher.decrypt(_data[7]);
-            ProfileCountryNameTextBox.Text = hasher.decrypt(_data[8]);
-            ProfileEMailTextBox.Text = hasher.decrypt(_data[9]);
-            ProfileTelephoneNumberTextBox.Text = hasher.decrypt(_data[10]);
-            ProfileMobileNumberTextBox.Text = hasher.decrypt(_data[11]);
-            ProfileFaxNumberTextBox.Text = hasher.decrypt(_data[12]);
-            ProfileBankNameTextBox.Text = hasher.decrypt(_data[13]);
-            ProfileBankAccountNumberTextBox.Text = hasher.decrypt(_data[14]);
-            ProfileBankCodeNumberTextBox.Text = hasher.decrypt(_data[15]);
-            ProfileIBANTextBox.Text = hasher.decrypt(_data[16]);
-            ProfileBICTextBox.Text = hasher.decrypt(_data[17]);
+            ProfileCompanyNameTextBox.Text = hasher.decrypt(_data[1], MainViewModel.profilePath);
+            ProfileFirstNameTextBox.Text = hasher.decrypt(_data[2], MainViewModel.profilePath);
+            ProfileLastNameTextBox.Text = hasher.decrypt(_data[3], MainViewModel.profilePath);
+            ProfilePostalCodeTextBox.Text = hasher.decrypt(_data[4], MainViewModel.profilePath);
+            ProfileCityNameTextBox.Text = hasher.decrypt(_data[5], MainViewModel.profilePath);
+            ProfileAddressTextBox.Text = hasher.decrypt(_data[6], MainViewModel.profilePath);
+            ProfileAddressNumberTextBox.Text = hasher.decrypt(_data[7], MainViewModel.profilePath);
+
+            if (int.TryParse(hasher.decrypt(_data[8], MainViewModel.profilePath), out int index))
+                ProfileCountryListComboBox.SelectedIndex = index;
+            else
+                ProfileCountryListComboBox.SelectedIndex = -1;
+
+            ProfileEMailTextBox.Text = hasher.decrypt(_data[9], MainViewModel.profilePath);
+            ProfileTelephoneNumberTextBox.Text = hasher.decrypt(_data[10], MainViewModel.profilePath);
+            ProfileMobileNumberTextBox.Text = hasher.decrypt(_data[11], MainViewModel.profilePath);
+            ProfileFaxNumberTextBox.Text = hasher.decrypt(_data[12], MainViewModel.profilePath);
+
+            if (int.TryParse(hasher.decrypt(_data[13], MainViewModel.profilePath), out index))
+                ProfileBankListComboBox.SelectedIndex = index;
+            else
+                ProfileBankListComboBox.SelectedIndex = -1;
+
+            ProfileBankCodeNumberTextBox.Text = hasher.decrypt(_data[14], MainViewModel.profilePath);
+            ProfileBICTextBox.Text = hasher.decrypt(_data[15], MainViewModel.profilePath);
+            ProfileBankAccountNumberTextBox.Text = hasher.decrypt(_data[16], MainViewModel.profilePath);
+            ProfileIBANTextBox.Text = hasher.decrypt(_data[17], MainViewModel.profilePath);
         }
 
-        private void SaveProfile_Click(object sender, RoutedEventArgs e)
+        private void SaveProfileButton_Click(object sender, RoutedEventArgs e)
         {
             ListBoxItem listBoxItem = (ListBoxItem)ProfileListBox.SelectedItem;
 
-            profileHandler.write(mainViewModel, mainViewModel.profilePath, listBoxItem);
+            profileHandler.write(mainViewModel, listBoxItem);
         }
 
         public MainViewModel getProfileViewModel()
@@ -211,7 +253,7 @@ namespace UI.Desktop.Profile
             return mainViewModel;
         }
 
-        private void TextBox_MouseEnter(object sender, RoutedEventArgs e)
+        private void Control_MouseEnter(object sender, RoutedEventArgs e)
         {
             Control control = sender as Control;
 
@@ -221,7 +263,7 @@ namespace UI.Desktop.Profile
             }
         }
 
-        private void TextBox_MouseLeave(object sender, RoutedEventArgs e)
+        private void Control_MouseLeave(object sender, RoutedEventArgs e)
         {
             if (!controlGotFocus)
             {
@@ -229,7 +271,7 @@ namespace UI.Desktop.Profile
             }
         }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void Control_GotFocus(object sender, RoutedEventArgs e)
         {
             Control control = sender as Control;
 
@@ -237,7 +279,7 @@ namespace UI.Desktop.Profile
             TooltipLabel.Content = control.ToolTip;
         }
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void Control_LostFocus(object sender, RoutedEventArgs e)
         {
             controlGotFocus = false;
             TooltipLabel.Content = "";
@@ -248,10 +290,10 @@ namespace UI.Desktop.Profile
             ListBoxItem selectedListBoxItem = (ListBoxItem)ProfileListBox.SelectedItem;
             ConfigHandler configHandler = new ConfigHandler();
 
-            configHandler.edit(mainViewModel, "selectedProfile=", hasher.encrypt((string)selectedListBoxItem.Content));
+            configHandler.edit("selectedProfile=", hasher.encrypt((string)selectedListBoxItem.Content, MainViewModel.profilePath));
         }
 
-        private void SelectProfile_Click(object sender, RoutedEventArgs e)
+        private void ActivateProfileButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedProfileCheckBox.IsChecked == false)
             {
@@ -294,11 +336,6 @@ namespace UI.Desktop.Profile
             mainViewModel.profileAddressNumber = ProfileAddressNumberTextBox.Text;
         }
 
-        private void ProfileCountryNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            mainViewModel.profileCountryName = ProfileCountryNameTextBox.Text;
-        }
-
         private void ProfileEMailTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             mainViewModel.profileEMailAddress = ProfileEMailTextBox.Text;
@@ -319,21 +356,6 @@ namespace UI.Desktop.Profile
             mainViewModel.profileFaxNumber = ProfileFaxNumberTextBox.Text;
         }
 
-        private void ProfileBankNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            mainViewModel.profileBankName = ProfileBankNameTextBox.Text;
-        }
-
-        private void ProfileBankAccountNumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            mainViewModel.profileBankAccountNumber = ProfileBankAccountNumberTextBox.Text;
-        }
-
-        private void ProfileBankCodeNumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            mainViewModel.profileBankCodeNumber = ProfileBankCodeNumberTextBox.Text;
-        }
-
         private void ProfileIBANTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             mainViewModel.profileIBAN = ProfileIBANTextBox.Text;
@@ -342,6 +364,66 @@ namespace UI.Desktop.Profile
         private void ProfileBICTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             mainViewModel.profileBIC = ProfileBICTextBox.Text;
+        }
+
+        private void ProfileCountryListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mainViewModel.profileCountryIndex = ProfileCountryListComboBox.SelectedIndex.ToString();
+        }
+
+        private void ProfileBankAccountNumberTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            char[] key = e.Key.ToString().ToCharArray();
+
+            if (!char.IsControl(key[key.Length - 1]) && !char.IsDigit(key[key.Length - 1]) && (key[key.Length - 1] != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ProfileBankAccountNumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            mainViewModel.profileBankAccountNumber = ProfileBankAccountNumberTextBox.Text;
+
+            if (ProfileBankAccountNumberTextBox.Text.Length == ProfileBankAccountNumberTextBox.MaxLength && ProfileCountryListComboBox.SelectedIndex != -1)
+            {
+                ProfileIBANTextBox.Text = IBANBuilder.formatIBAN(IBANBuilder.getIBAN(ProfileBankCodeNumberTextBox.Text, ProfileBankAccountNumberTextBox.Text));
+            }
+        }
+
+        private void ProfileBankCodeNumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            mainViewModel.profileBankCodeNumber = ProfileBankCodeNumberTextBox.Text;
+        }
+
+        private void ProfileBankNameTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mainViewModel.profileBankIndex = ProfileBankListComboBox.SelectedIndex.ToString();
+            mainViewModel.profileBankName = ProfileBankListComboBox.Text;
+        }
+
+        private void loadBankInformation()
+        {
+            List<string> bankInformation = BankList.getBankInformation(ProfileBankListComboBox.Text);
+
+            if (bankInformation != null)
+                if (bankInformation.Count == 2)
+                {
+                    ProfileBankCodeNumberTextBox.Text   = bankInformation[0];
+                    ProfileBICTextBox.Text              = bankInformation[1];
+
+                    if (ProfileBankAccountNumberTextBox.Text.Length == ProfileBankAccountNumberTextBox.MaxLength && ProfileCountryListComboBox.SelectedIndex != -1)
+                    {
+                        ProfileIBANTextBox.Text = IBANBuilder.formatIBAN(IBANBuilder.getIBAN(ProfileBankCodeNumberTextBox.Text, ProfileBankAccountNumberTextBox.Text));
+                    }
+                }
+        }
+        private void ProfileBankListComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return || e.Key == Key.Tab)
+            {
+                loadBankInformation();
+            }
         }
     }
 }

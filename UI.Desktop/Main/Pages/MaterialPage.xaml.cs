@@ -46,21 +46,36 @@ namespace UI.Desktop.Main.Pages
                         if (!MaterialPriceTextBox.Text.Contains(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator))
                             MaterialPriceTextBox.Text += NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator + "00";
 
-                        var data = new Materialliste { Bezeichnung = mainWindow.mainViewModel.materialDescription, Anzahl = mainWindow.mainViewModel.materialCount, Preis = mainWindow.mainViewModel.materialPrice };
-                        Material m = new Material();
+                        if (MaterialPriceTextBox.Text.Length - MaterialPriceTextBox.Text.IndexOf(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator) <= 3)
+                        {
+                            if (MaterialPriceTextBox.Text.Length - MaterialPriceTextBox.Text.IndexOf(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator) <= 1)
+                                MaterialPriceTextBox.Text += "0";
 
-                        MaterialListDataGrid.Items.Add(data);
-                        m.Description = mainWindow.mainViewModel.materialDescription;
-                        m.Count = mainWindow.mainViewModel.materialCount;
-                        m.Price = mainWindow.mainViewModel.materialPrice;
-                        mainWindow.mainViewModel.MaterialList.Add(m);
+                            if (MaterialPriceTextBox.Text.Length - MaterialPriceTextBox.Text.IndexOf(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator) <= 2)
+                                MaterialPriceTextBox.Text += "0";
 
-                        mainWindow.mainViewModel.addMaterialToList(mainWindow.mainViewModel.materialPath);
-                        mainWindow.buildMaterialList(true);
+                            var data = new Materialliste { Bezeichnung = mainWindow.mainViewModel.materialDescription, Anzahl = mainWindow.mainViewModel.materialCount, Preis = mainWindow.mainViewModel.materialPrice };
+                            Material m = new Material();
 
-                        MaterialDescriptionTextBox.Text = "";
-                        MaterialCountTextBox.Text = "0";
-                        MaterialPriceTextBox.Text = "0";
+                            MaterialListDataGrid.Items.Add(data);
+                            m.Description = mainWindow.mainViewModel.materialDescription;
+                            m.Count = mainWindow.mainViewModel.materialCount;
+                            m.Price = mainWindow.mainViewModel.materialPrice;
+                            mainWindow.mainViewModel.MaterialList.Add(m);
+
+                            mainWindow.mainViewModel.addMaterialToList(MainViewModel.materialPath);
+                            mainWindow.buildMaterialList(true);
+
+                            MaterialDescriptionTextBox.Text = "";
+                            MaterialCountTextBox.Text = "0";
+                            MaterialPriceTextBox.Text = "0";
+                        }
+                        else
+                        {
+                            message = "Die Eingabe für das Feld '" + PriceLabel.Content + "' ist fehlerhaft!";
+
+                            MessageBox.Show(message, caption, messageBoxButton, messageBoxImage);
+                        }
                     }
                     else
                     {
@@ -105,7 +120,7 @@ namespace UI.Desktop.Main.Pages
             {
                 ListBoxItem selectedListBoxItem = (ListBoxItem)MaterialListBox.SelectedItem;
 
-                mainWindow.mainViewModel.removeMaterialFromList((string)selectedListBoxItem.Content, mainWindow.mainViewModel.materialPath);
+                mainWindow.mainViewModel.removeMaterialFromList((string)selectedListBoxItem.Content, MainViewModel.materialPath);
                 MaterialListBox.Items.Remove(selectedListBoxItem);
             }
         }
@@ -115,13 +130,13 @@ namespace UI.Desktop.Main.Pages
             if (MaterialListBox.SelectedIndex != -1)
             {
                 ListBoxItem selectedItem = (ListBoxItem)MaterialListBox.SelectedItem;
-                string[] data = mainWindow.profileHandler.read((string)selectedItem.Content, mainWindow.mainViewModel.materialPath);
+                string[] data = mainWindow.profileHandler.read((string)selectedItem.Content, MainViewModel.materialPath);
 
                 if (data.Length > 0)
                 {
-                    MaterialDescriptionTextBox.Text = hasher.decrypt(data[0]);
-                    MaterialCountTextBox.Text = hasher.decrypt(data[1]);
-                    MaterialPriceTextBox.Text = hasher.decrypt(data[2]);
+                    MaterialDescriptionTextBox.Text = hasher.decrypt(data[0], MainViewModel.materialPath);
+                    MaterialCountTextBox.Text = hasher.decrypt(data[1], MainViewModel.materialPath);
+                    MaterialPriceTextBox.Text = hasher.decrypt(data[2], MainViewModel.materialPath);
                 }
             }
         }

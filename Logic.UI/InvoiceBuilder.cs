@@ -235,7 +235,7 @@ namespace Logic.UI
         private DocX addHeaderTable(DocX _doc)
         {
             DocX doc = _doc;
-            var columnWidths = new float[] { 280, 180 };
+            var columnWidths = new float[] { 270, 190 };
             Table headerTable = doc.AddTable(15, columnWidths.Length);
             Border lastCellBorder = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, System.Drawing.Color.Black);
 

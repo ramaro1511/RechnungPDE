@@ -6,6 +6,7 @@ using UI.Desktop.Main.Pages;
 using UI.Desktop.Options;
 using UI.Desktop.Profile;
 using System.IO;
+using System;
 
 namespace UI.Desktop.Main
 {
@@ -25,7 +26,7 @@ namespace UI.Desktop.Main
         Hasher hasher = new Hasher();
 
         public bool controlGotFocus;
-        bool isValidFilename, isValidCustomerCompanyName, isValidInvoiceNumber;
+        public static bool isValidFilename, isValidCustomerCompanyName, isValidInvoiceNumber;
         int page = 0;
 
         public MainWindow()
@@ -43,6 +44,7 @@ namespace UI.Desktop.Main
 
             mainViewModel.MaterialList = new System.Collections.ObjectModel.ObservableCollection<Material>();
 
+
             Main.Content = startPage;
         }
 
@@ -56,7 +58,7 @@ namespace UI.Desktop.Main
 
         private void buildCustomerList()
         {
-            string text = File.ReadAllText(mainViewModel.customerPath);
+            string text = File.ReadAllText(MainViewModel.customerPath);
 
             if (!string.IsNullOrWhiteSpace(text))
             {
@@ -66,8 +68,8 @@ namespace UI.Desktop.Main
                 {
                     ListBoxItem listboxItem = new ListBoxItem();
                     string[] data = profile.Split(';');
-                    listboxItem.Name = hasher.decrypt(data[0]).Replace(" ", "") + "ListBoxItem"; ;
-                    listboxItem.Content = hasher.decrypt(data[0]);
+                    listboxItem.Name = hasher.decrypt(data[0], MainViewModel.customerPath).Replace(" ", "") + "ListBoxItem";
+                    listboxItem.Content = hasher.decrypt(data[0], MainViewModel.customerPath);
 
                     customerPage.CustomerProfileListBox.Items.Add(listboxItem);
                 }
@@ -76,14 +78,14 @@ namespace UI.Desktop.Main
 
         private void buildInvoiceList()
         {
-            string[] lines = File.ReadAllLines(mainViewModel.invoicePath);
+            string[] lines = File.ReadAllLines(MainViewModel.invoicePath);
 
             if (lines != null)
             {
                 foreach (string line in lines)
                 {
                     ListBoxItem listBoxItem = new ListBoxItem();
-                    listBoxItem.Content = hasher.decrypt(line);
+                    listBoxItem.Content = hasher.decrypt(line, MainViewModel.invoicePath);
                     invoiceInfoPage.InvoiceListBox.Items.Add(listBoxItem);
                 }
             }
@@ -91,7 +93,7 @@ namespace UI.Desktop.Main
 
         public void buildMaterialList(bool rebuild = false)
         {
-            string[] lines = File.ReadAllLines(mainViewModel.materialPath);
+            string[] lines = File.ReadAllLines(MainViewModel.materialPath);
 
             if (lines.Length > 0)
             {
@@ -105,7 +107,7 @@ namespace UI.Desktop.Main
                     string[] data = line.Split(';');
 
                     ListBoxItem listBoxItem = new ListBoxItem();
-                    listBoxItem.Content = hasher.decrypt(data[0]);
+                    listBoxItem.Content = hasher.decrypt(data[0], MainViewModel.materialPath);
                     materialPage.MaterialListBox.Items.Add(listBoxItem);
                 }
             }
@@ -118,29 +120,29 @@ namespace UI.Desktop.Main
 
             if (!string.IsNullOrEmpty(selectedProfile))
             {
-                string profile = mainViewModel.getSelectedProfile(selectedProfile, mainViewModel.profilePath);
+                string profile = mainViewModel.getSelectedProfile(selectedProfile, MainViewModel.profilePath);
 
                 if (!string.IsNullOrEmpty(profile))
                 {
                     string[] data = profile.Split(';');
 
-                    mainViewModel.profileCompanyName = hasher.decrypt(data[1]);
-                    mainViewModel.profileFirstName = hasher.decrypt(data[2]);
-                    mainViewModel.profileLastName = hasher.decrypt(data[3]);
-                    mainViewModel.profilePostalCode = hasher.decrypt(data[4]);
-                    mainViewModel.profileCityName = hasher.decrypt(data[5]);
-                    mainViewModel.profileAddress = hasher.decrypt(data[6]);
-                    mainViewModel.profileAddressNumber = hasher.decrypt(data[7]);
-                    mainViewModel.profileCountryName = hasher.decrypt(data[8]);
-                    mainViewModel.profileEMailAddress = hasher.decrypt(data[9]);
-                    mainViewModel.profileTelephoneNumber = hasher.decrypt(data[10]);
-                    mainViewModel.profileMobileNumber = hasher.decrypt(data[11]);
-                    mainViewModel.profileFaxNumber = hasher.decrypt(data[12]);
-                    mainViewModel.profileBankName = hasher.decrypt(data[13]);
-                    mainViewModel.profileBankAccountNumber = hasher.decrypt(data[14]);
-                    mainViewModel.profileBankCodeNumber = hasher.decrypt(data[15]);
-                    mainViewModel.profileIBAN = hasher.decrypt(data[16]);
-                    mainViewModel.profileBIC = hasher.decrypt(data[17]);
+                    mainViewModel.profileCompanyName = hasher.decrypt(data[1], MainViewModel.profilePath);
+                    mainViewModel.profileFirstName = hasher.decrypt(data[2], MainViewModel.profilePath);
+                    mainViewModel.profileLastName = hasher.decrypt(data[3], MainViewModel.profilePath);
+                    mainViewModel.profilePostalCode = hasher.decrypt(data[4], MainViewModel.profilePath);
+                    mainViewModel.profileCityName = hasher.decrypt(data[5], MainViewModel.profilePath);
+                    mainViewModel.profileAddress = hasher.decrypt(data[6], MainViewModel.profilePath);
+                    mainViewModel.profileAddressNumber = hasher.decrypt(data[7], MainViewModel.profilePath);
+                    mainViewModel.profileCountryIndex = hasher.decrypt(data[8], MainViewModel.profilePath);
+                    mainViewModel.profileEMailAddress = hasher.decrypt(data[9], MainViewModel.profilePath);
+                    mainViewModel.profileTelephoneNumber = hasher.decrypt(data[10], MainViewModel.profilePath);
+                    mainViewModel.profileMobileNumber = hasher.decrypt(data[11], MainViewModel.profilePath);
+                    mainViewModel.profileFaxNumber = hasher.decrypt(data[12], MainViewModel.profilePath);
+                    mainViewModel.profileBankName = hasher.decrypt(data[13], MainViewModel.profilePath);
+                    mainViewModel.profileBankAccountNumber = hasher.decrypt(data[14], MainViewModel.profilePath);
+                    mainViewModel.profileBankCodeNumber = hasher.decrypt(data[15], MainViewModel.profilePath);
+                    mainViewModel.profileIBAN = hasher.decrypt(data[16], MainViewModel.profilePath);
+                    mainViewModel.profileBIC = hasher.decrypt(data[17], MainViewModel.profilePath);
                 }
             }
         }
@@ -211,12 +213,20 @@ namespace UI.Desktop.Main
 
                 case 3:
                     Main.Content = materialPage;
+
+                    if (!ContinueButton.IsEnabled)
+                        ContinueButton.IsEnabled = true;
+
                     break;
 
                 case 4:
                     Main.Content = workingHoursPage;
+
                     ContinueButton.Visibility = Visibility.Visible;
                     CompleteButton.Visibility = Visibility.Hidden;
+
+                    if (!WorkingHoursPage.isValidBusinessHours || !WorkingHoursPage.isValidWage)
+                        ContinueButton.IsEnabled = false;
                     break;
 
                 case 5:
@@ -229,7 +239,7 @@ namespace UI.Desktop.Main
                     break;
             }
 
-            if (page != 2)
+            if (page != 2 && page != 4)
             {
                 ContinueButton.IsEnabled = true;
             }

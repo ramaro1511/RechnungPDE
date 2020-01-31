@@ -15,11 +15,11 @@ namespace Logic.UI
         ProfileHandler profileHandler = new ProfileHandler();
         Hasher hasher = new Hasher();
 
-        public string customerPath = Directory.GetCurrentDirectory() + @"\customerProfile.txt";
-        public string invoicePath = Directory.GetCurrentDirectory() + @"\invoiceNumbers.txt";
-        public string materialPath = Directory.GetCurrentDirectory() + @"\materialList.txt"; 
-        public string profilePath = Directory.GetCurrentDirectory() + @"\profile.txt";
-        public string configPath = Directory.GetCurrentDirectory() + @"\config.txt";
+        public static string customerPath = Directory.GetCurrentDirectory() + @"\customerProfile.txt";
+        public static string invoicePath = Directory.GetCurrentDirectory() + @"\invoiceNumbers.txt";
+        public static string materialPath = Directory.GetCurrentDirectory() + @"\materialList.txt"; 
+        public static string profilePath = Directory.GetCurrentDirectory() + @"\profile.txt";
+        public static string configPath = Directory.GetCurrentDirectory() + @"\config.txt";
 
         public MainViewModel()
         {
@@ -65,12 +65,12 @@ namespace Logic.UI
 
                 string[] config = { "selectedProfile=", "invoiceStandardFont=Times New Roman", "invoiceTableFont=Consolas" };
 
-                foreach (string item in config)
+                foreach (string line in config)
                 {
                     if (!string.IsNullOrEmpty(File.ReadAllText(configPath)))
                         File.AppendAllText(configPath, Environment.NewLine);
 
-                    File.AppendAllText(configPath, item);
+                    File.AppendAllText(configPath, line);
                 }
             }
         }
@@ -84,6 +84,8 @@ namespace Logic.UI
         public string ToolBarColor { get; private set; }
 
         public ObservableCollection<Material> MaterialList { get; set; }
+
+        public ObservableCollection<CountryList> CountryList { get; set; }
 
         public string customerCompanyName { get; set; }
 
@@ -149,7 +151,7 @@ namespace Logic.UI
 
         public string profileAddressNumber { get; set; }
 
-        public string profileCountryName { get; set; }
+        public string profileCountryIndex { get; set; }
 
         public string profileEMailAddress { get; set; }
 
@@ -158,6 +160,8 @@ namespace Logic.UI
         public string profileMobileNumber { get; set; }
 
         public string profileFaxNumber { get; set; }
+
+        public string profileBankIndex { get; set; }
 
         public string profileBankName { get; set; }
 
@@ -190,12 +194,12 @@ namespace Logic.UI
         {
             if (!string.IsNullOrWhiteSpace(customerCompanyName))
             {
-                string[] data = profileHandler.read(customerCompanyName, customerPath);
+                string[] data = profileHandler.read(customerCompanyName, MainViewModel.customerPath);
 
                 if (data == null)
-                    profileHandler.add(customerCompanyName, customerPath, true);
+                    profileHandler.add(customerCompanyName, true);
 
-                profileHandler.writeCustomer(this, customerPath);
+                profileHandler.writeCustomer(this);
             }
         }
 
@@ -216,7 +220,7 @@ namespace Logic.UI
                     {
                         if (string.IsNullOrEmpty(newInvoiceNumbers))
                         {
-                            newInvoiceNumbers = hasher.encrypt(fileName);
+                            newInvoiceNumbers = hasher.encrypt(fileName, invoicePath);
                             lineCount++;
                         }
 
@@ -233,7 +237,7 @@ namespace Logic.UI
                 }
                 else
                 {
-                    File.AppendAllText(invoicePath, hasher.encrypt(fileName));
+                    File.AppendAllText(invoicePath, hasher.encrypt(fileName, invoicePath));
                 }
             }
         }
@@ -253,10 +257,10 @@ namespace Logic.UI
                     newLines += "\n";
                 }
 
-                if (data[0] == hasher.encrypt(materialDescription))
+                if (data[0] == hasher.encrypt(materialDescription, materialPath))
                 {
-                    data[1] = hasher.encrypt(materialCount.ToString());
-                    data[2] = hasher.encrypt(materialPrice.ToString());
+                    data[1] = hasher.encrypt(materialCount.ToString(), materialPath);
+                    data[2] = hasher.encrypt(materialPrice.ToString(), materialPath);
 
                     newLines += string.Join(";", data);
                     lineReplaced = true;
@@ -274,7 +278,7 @@ namespace Logic.UI
                     newLines += "\n";
                 }
 
-                newLines += hasher.encrypt(materialDescription) + ";" + hasher.encrypt(materialCount.ToString()) + ";" + hasher.encrypt(materialPrice.ToString()) + ";";
+                newLines += hasher.encrypt(materialDescription, materialPath) + ";" + hasher.encrypt(materialCount.ToString(), materialPath) + ";" + hasher.encrypt(materialPrice.ToString(), materialPath) + ";";
             }
 
             File.WriteAllText(_path, newLines);
@@ -326,7 +330,7 @@ namespace Logic.UI
                 {
                     string[] data = line.Split(';');
 
-                    if (_profile.Contains(hasher.decrypt(data[0])))
+                    if (_profile.Contains(hasher.decrypt(data[0], profilePath)))
                     {
                         return line;
                     }

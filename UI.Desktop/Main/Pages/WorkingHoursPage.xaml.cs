@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,6 +12,7 @@ namespace UI.Desktop.Main.Pages
     {
         MainWindow mainWindow;
 
+        public static bool isValidBusinessHours, isValidWage = true;
         public WorkingHoursPage()
         {
             InitializeComponent();
@@ -23,7 +25,6 @@ namespace UI.Desktop.Main.Pages
 
         public void setUp()
         {
-            WageTextBox.Text = "0" + NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator + "00";
             InvoiceCommentTextBox.Text = "Vielen Dank für Ihren Auftrag. Bitte überweisen Sie den Rechnungsbetrag innerhalb von 7 Tagen auf das o.a. Konto nach Erhalt der Rechnung.";
         }
 
@@ -33,6 +34,8 @@ namespace UI.Desktop.Main.Pages
 
             if (!string.IsNullOrWhiteSpace(BusinessHoursCountTextBox.Text))
             {
+                isValidBusinessHours = false;
+
                 if (BusinessHoursCountTextBox.Text.Contains("."))
                     BusinessHoursCountTextBox.Text = BusinessHoursCountTextBox.Text.Replace('.', char.Parse(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator));
                 else if (BusinessHoursCountTextBox.Text.Contains(","))
@@ -41,7 +44,10 @@ namespace UI.Desktop.Main.Pages
                 if (decimal.TryParse(BusinessHoursCountTextBox.Text, out businessHours))
                 {
                     mainWindow.mainViewModel.businessHours = decimal.Parse(BusinessHoursCountTextBox.Text);
+                    isValidBusinessHours = true;
                 }
+
+                enableContinueButton();
             }
         }
 
@@ -51,6 +57,8 @@ namespace UI.Desktop.Main.Pages
 
             if (!string.IsNullOrWhiteSpace(WageTextBox.Text))
             {
+                isValidWage = false;
+
                 if (WageTextBox.Text.Contains("."))
                     WageTextBox.Text = WageTextBox.Text.Replace('.', char.Parse(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator));
                 else if (WageTextBox.Text.Contains(","))
@@ -58,12 +66,15 @@ namespace UI.Desktop.Main.Pages
 
                 if (decimal.TryParse(WageTextBox.Text, out hourlyWage))
                 {
-                    if (!WageTextBox.Text.Contains(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator))
-                        WageTextBox.Text += NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator + "00";
-
-                    mainWindow.mainViewModel.hourlyWage = decimal.Parse(WageTextBox.Text);
+                    if (WageTextBox.Text.Length - WageTextBox.Text.IndexOf(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator) <= 3)
+                    {
+                        mainWindow.mainViewModel.hourlyWage = decimal.Parse(WageTextBox.Text);
+                        isValidWage = true;
+                    }
                 }
             }
+
+            enableContinueButton();
         }
 
         private void InvoiceCommentTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -253,6 +264,35 @@ namespace UI.Desktop.Main.Pages
         {
             mainWindow.controlGotFocus = false;
             mainWindow.TooltipLabel.Content = "";
+
+            if (!WageTextBox.Text.Contains(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator))
+                WageTextBox.Text += NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator + "00";
+
+            if (WageTextBox.Text.Length - WageTextBox.Text.IndexOf(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator) <= 1)
+                WageTextBox.Text += "0";
+
+            if (WageTextBox.Text.Length - WageTextBox.Text.IndexOf(NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator) <= 2)
+                WageTextBox.Text += "0";
+        }
+
+        private void Control_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            mainWindow.TooltipLabel.Content = "";
+        }
+
+        private void Control_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBox control = sender as TextBox;
+
+            mainWindow.TooltipLabel.Content = control.ToolTip;
+        }
+
+        private void enableContinueButton()
+        {
+            if (isValidBusinessHours && isValidWage)
+                mainWindow.ContinueButton.IsEnabled = true;
+            else
+                mainWindow.ContinueButton.IsEnabled = false;
         }
     }
 }

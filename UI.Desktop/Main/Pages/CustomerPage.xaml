@@ -41,7 +41,7 @@
                       Rectangle.MouseEnter="Control_MouseEnter"
                       Rectangle.MouseLeave="Control_MouseLeave"
                       TextChanged="CustomerCompanyNameTextBox_TextChanged"
-                      GotFocus="TextBox_GotFocus"
+                      GotFocus="Control_GotFocus"
                       LostFocus="Control_LostFocus" 
                       Text="{Binding customerCompanyName}"/>
         </Grid>
@@ -61,7 +61,7 @@
             <TextBox Name="FirstNameTextBox" Grid.Row="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Vorname des Kunden" 
                         Rectangle.MouseEnter="Control_MouseEnter"
                         Rectangle.MouseLeave="Control_MouseLeave"
-                        GotFocus="TextBox_GotFocus"
+                        GotFocus="Control_GotFocus"
                         LostFocus="Control_LostFocus"
                         TextChanged="FirstNameTextBox_TextChanged"
                         Text="{Binding customerFirstName}"/>
@@ -70,7 +70,7 @@
             <TextBox Name="LastNameTextBox" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Nachname des Kunden"
                             Rectangle.MouseEnter="Control_MouseEnter"
                             Rectangle.MouseLeave="Control_MouseLeave"
-                            GotFocus="TextBox_GotFocus"
+                            GotFocus="Control_GotFocus"
                             LostFocus="Control_LostFocus"
                              Text="{Binding customerLastName}"
                              TextChanged="LastNameTextBox_TextChanged"/>
@@ -91,7 +91,7 @@
             <TextBox Name="PostCodeTextBox" Text="{Binding customerPostalCode}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Postleitzahl des Kunden"
                      Rectangle.MouseEnter="Control_MouseEnter"
                      Rectangle.MouseLeave="Control_MouseLeave"
-                      GotFocus="TextBox_GotFocus"
+                      GotFocus="Control_GotFocus"
                       LostFocus="Control_LostFocus"
                              TextChanged="PostCodeTextBox_TextChanged"/>
 
@@ -99,7 +99,7 @@
             <TextBox Name="CityTextBox" Text="{Binding customerCityName}" Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Stadt des Kunden"
                       Rectangle.MouseEnter="Control_MouseEnter"
                       Rectangle.MouseLeave="Control_MouseLeave"
-                      GotFocus="TextBox_GotFocus"
+                      GotFocus="Control_GotFocus"
                       LostFocus="Control_LostFocus"
                              TextChanged="CityTextBox_TextChanged"/>
         </Grid>
@@ -119,7 +119,7 @@
             <TextBox Name="Address" Text="{Binding customerAddress}" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Straße des Kunden"
                       Rectangle.MouseEnter="Control_MouseEnter"
                       Rectangle.MouseLeave="Control_MouseLeave"
-                      GotFocus="TextBox_GotFocus"
+                      GotFocus="Control_GotFocus"
                       LostFocus="Control_LostFocus"
                              TextChanged="AddressTextBox_TextChanged"/>
 
@@ -127,7 +127,7 @@
             <TextBox Name="HouseNumberTextBox" Text="{Binding customerAddressNumber}" Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Hausnummer des Kunden"
                       Rectangle.MouseEnter="Control_MouseEnter"
                       Rectangle.MouseLeave="Control_MouseLeave"
-                      GotFocus="TextBox_GotFocus"
+                      GotFocus="Control_GotFocus"
                       LostFocus="Control_LostFocus"
                              TextChanged="HouseNumberTextBox_TextChanged"/>
         </Grid>
@@ -143,13 +143,14 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Name="CountryLabel" Content="Land" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontStyle="Italic" />
-            <TextBox Name="CountryTextBox" Text="{Binding customerCountryName}" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="Land des Kunden"
-                              Rectangle.MouseEnter="Control_MouseEnter"
-                              Rectangle.MouseLeave="Control_MouseLeave"
-                              GotFocus="TextBox_GotFocus"
-                              LostFocus="Control_LostFocus"
-                            TextChanged="CountryTextBox_TextChanged"/>
+            <Label Name="CountryLabel" Content="Land" Grid.Row="0" Grid.Column="0" FontStyle="Italic" />
+            <ComboBox Name="CountryListComboBox" Grid.Row="1" Grid.Column="0" ToolTip="Land des Kunden"
+                                  MouseEnter="Control_MouseEnter"
+                                  MouseLeave="Control_MouseLeave"
+                                  GotFocus="Control_GotFocus"
+                                  LostFocus="Control_LostFocus"
+                                  Text="{Binding customerCountryName}"
+                                  SelectionChanged="CountryListComboBox_SelectionChanged"/>
         </Grid>
 
         <Label Name="CustomerProfileLabel" Content="Kundenliste" Grid.Row="0" Grid.Column="3" FontStyle="Italic"/>

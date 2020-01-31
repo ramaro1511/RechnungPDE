@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{35CF7AD5-33AB-4C24-B6C0-6C18CE8658F0}"
+	ProjectSection(SolutionItems) = preProject
+		Logic.UI\ViewModelLocator.cs = Logic.UI\ViewModelLocator.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{F6CB3D37-1FF4-4EB7-9CFB-D1C7DE35E8BC}"
 EndProject
@@ -32,5 +35,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{749025B3-F89A-48FE-BE6B-8C8710A8AD8A} = {35CF7AD5-33AB-4C24-B6C0-6C18CE8658F0}
 		{7D792953-75FB-4867-8A19-BC16E7627C3D} = {F6CB3D37-1FF4-4EB7-9CFB-D1C7DE35E8BC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB431F9A-395F-4A96-8770-0075AAEF344A}
 	EndGlobalSection
 EndGlobal
